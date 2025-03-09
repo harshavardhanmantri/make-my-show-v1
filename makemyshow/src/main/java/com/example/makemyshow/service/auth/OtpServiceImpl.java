@@ -1,4 +1,6 @@
 package com.example.makemyshow.service.auth;
+import com.example.makemyshow.service.cache.CacheService;
+import com.example.makemyshow.service.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

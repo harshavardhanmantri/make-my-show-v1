@@ -1,4 +1,4 @@
-package com.example.makemyshow.config;
+package com.example.makemyshow.security;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;

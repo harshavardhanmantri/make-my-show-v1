@@ -1,4 +1,4 @@
-package com.example.makemyshow.config;
+package com.example.makemyshow.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

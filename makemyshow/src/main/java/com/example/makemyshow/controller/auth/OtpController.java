@@ -1,5 +1,6 @@
 package com.example.makemyshow.controller.auth;
 
+import com.example.makemyshow.service.auth.OtpService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

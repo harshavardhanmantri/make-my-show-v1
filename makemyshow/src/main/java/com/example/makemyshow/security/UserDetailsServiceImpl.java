@@ -1,6 +1,7 @@
-package com.example.makemyshow.config;
+package com.example.makemyshow.security;
 
 import com.example.makemyshow.model.user.User;
+import com.example.makemyshow.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

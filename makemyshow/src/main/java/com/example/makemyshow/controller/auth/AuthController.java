@@ -1,7 +1,11 @@
 package com.example.makemyshow.controller.auth;
 
+import com.example.makemyshow.dto.request.LoginRequestDto;
 import com.example.makemyshow.dto.request.UserRegistrationDto;
+import com.example.makemyshow.dto.response.JwtResponseDto;
 import com.example.makemyshow.model.user.UserRole;
+import com.example.makemyshow.service.auth.AuthService;
+import com.example.makemyshow.service.auth.OtpService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
