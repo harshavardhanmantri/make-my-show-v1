@@ -1,6 +1,7 @@
 package com.example.makemyshow.security;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,6 +18,11 @@ import java.util.stream.Collectors;
 
 @Component
 public class JwtTokenProvider {
+
+    @PostConstruct
+    public void init() {
+        key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
+    }
 
     @Value("${jwt.secret}")
     private String jwtSecret;

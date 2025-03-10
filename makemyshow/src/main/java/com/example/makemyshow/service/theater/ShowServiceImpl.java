@@ -1,5 +1,7 @@
 package com.example.makemyshow.service.theater;
 
+import com.example.makemyshow.dto.request.ShowRequestDto;
+import com.example.makemyshow.dto.response.ShowResponseDto;
 import com.example.makemyshow.model.Show;
 import com.example.makemyshow.repository.ShowRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +37,30 @@ public class ShowServiceImpl implements ShowService {
         return shows.stream()
                 .map(ShowResponseDto::fromShow)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public ShowResponseDto addShow(ShowRequestDto showRequest, String ownerEmail) {
+        return null;
+    }
+
+    @Override
+    public ShowResponseDto updateShow(Long id, ShowRequestDto showRequest, String ownerEmail) {
+        return null;
+    }
+
+    @Override
+    public void deleteShow(Long id, String ownerEmail) {
+
+    }
+
+    @Override
+    public List<ShowResponseDto> getShowsByTheaterAndDate(Long theaterId, LocalDate date, String ownerEmail) {
+        return List.of();
+    }
+
+    @Override
+    public ShowResponseDto getShowByIdForOwner(Long id, String ownerEmail) {
+        return null;
     }
 }

@@ -1,4 +1,6 @@
 package com.example.makemyshow.service.booking;
+import com.example.makemyshow.dto.request.BookingRequestDto;
+import com.example.makemyshow.dto.response.BookingResponseDto;
 import com.example.makemyshow.exception.ResourceNotFoundException;
 import com.example.makemyshow.exception.UnauthorizedException;
 import com.example.makemyshow.model.Booking;
@@ -38,7 +40,6 @@ public class BookingServiceImpl implements BookingService {
     @Autowired
     private CacheService cacheService;
 
-    private static final String LOCK_KEY_PREFIX = "BOOKING_LOCK:";
     private static final String SEAT_LOCK_KEY_PREFIX = "SEAT_LOCK:";
     private static final long LOCK_TIMEOUT = 10; // 10 minutes
 
@@ -121,6 +122,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    @Transactional
     public List<BookingResponseDto> getUserBookings(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -133,6 +135,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    @Transactional
     public BookingResponseDto getBookingById(Long id, String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));

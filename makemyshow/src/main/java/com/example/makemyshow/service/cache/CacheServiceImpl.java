@@ -14,9 +14,11 @@ public class CacheServiceImpl implements CacheService {
 
     @Override
     public void put(String key, Object value, long timeout, TimeUnit unit) {
-        redisTemplate.opsForValue().set(key, value);
         if (timeout > 0) {
-            redisTemplate.expire(key, timeout, unit);
+            redisTemplate.opsForValue().set(key, value, timeout, unit);
+        } else {
+            // Default expiration for entries without specified timeout (1 day)
+            redisTemplate.opsForValue().set(key, value, 1, TimeUnit.DAYS);
         }
     }
 

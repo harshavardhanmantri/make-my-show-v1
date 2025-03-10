@@ -1,5 +1,7 @@
 package com.example.makemyshow.service.admin;
 
+import com.example.makemyshow.dto.request.MovieRequestDto;
+import com.example.makemyshow.dto.response.MovieResponseDto;
 import com.example.makemyshow.exception.ResourceNotFoundException;
 import com.example.makemyshow.model.Movie;
 import com.example.makemyshow.repository.MovieRepository;

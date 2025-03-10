@@ -1,5 +1,6 @@
 package com.example.makemyshow.service.movie;
 
+import com.example.makemyshow.dto.response.MovieResponseDto;
 import com.example.makemyshow.exception.ResourceNotFoundException;
 import com.example.makemyshow.model.Movie;
 import com.example.makemyshow.repository.MovieRepository;
@@ -75,5 +76,11 @@ public class MovieServiceImpl implements MovieService {
                 .stream()
                 .map(MovieResponseDto::fromMovie)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<MovieResponseDto> getAllMoviesForAdmin(Pageable pageable) {
+        return movieRepository.findAll(pageable)
+                .map(MovieResponseDto::fromMovie);
     }
 }
