@@ -85,7 +85,7 @@ public class AuthServiceImpl implements AuthService {
         User savedUser = userRepository.save(user);
 
         // Send OTP for email verification
-        otpService.sendOtp(user.getEmail());
+//        otpService.sendOtp(user.getEmail());
 
         return savedUser;
     }

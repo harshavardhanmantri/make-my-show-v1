@@ -33,7 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 user.isActive(),
                 true,
                 true,
-                user.isEmailVerified(),
+                true,
                 authorities
         );
     }
