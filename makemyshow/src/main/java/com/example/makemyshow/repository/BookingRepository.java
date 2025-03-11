@@ -17,4 +17,5 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> findByBookingTimeBetweenAndShowScreenTheaterIdAndStatus(LocalDateTime start, LocalDateTime end, Long theaterId, Booking.BookingStatus status);
     List<Booking> findByBookingTimeBetween(LocalDateTime start, LocalDateTime end);
     List<Booking> findByBookingTimeBetweenAndShowMovieId(LocalDateTime start, LocalDateTime end, Long movieId);
+    List<Booking> findByShowId(Long showId);
 }

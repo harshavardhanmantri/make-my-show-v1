@@ -3,6 +3,7 @@ package com.example.makemyshow.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "seats")
@@ -48,4 +49,7 @@ public class Seat {
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
+
+    @ManyToMany(mappedBy = "seats")
+    private Set<Booking> bookings;
 }

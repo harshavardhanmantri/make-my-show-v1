@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/customer/bookings")
-@PreAuthorize("hasRole('CUSTOMER')")
+@PreAuthorize("hasRole('ROLE_CUSTOMER')")
 @Tag(name = "Booking Management", description = "APIs for booking operations")
 public class BookingController {
 

@@ -16,7 +16,7 @@ import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/api/v1/admin/reports")
-@PreAuthorize("hasRole('ADMIN')")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 @Tag(name = "Admin Reports", description = "APIs for admins to generate reports")
 public class ReportController {
 

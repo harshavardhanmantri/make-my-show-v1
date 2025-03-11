@@ -9,7 +9,35 @@ import java.util.List;
 
 @Repository
 public interface ShowRepository extends JpaRepository<Show, Long> {
-    List<Show> findByMovieIdAndStartTimeBetweenAndIsActiveTrue(Long movieId, LocalDateTime start, LocalDateTime end);
-    List<Show> findByMovieIdAndStartTimeBetweenAndScreenTheaterCityAndIsActiveTrue(Long movieId, LocalDateTime start, LocalDateTime end, String city);
-    List<Show> findByScreenTheaterIdAndStartTimeBetweenAndIsActiveTrueOrderByStartTime(Long theaterId, LocalDateTime start, LocalDateTime end);
-}
+        List<Show> findByScreenIdAndStartTimeBetweenOrEndTimeBetween(
+                Long screenId,
+                LocalDateTime startFrom,
+                LocalDateTime startTo,
+                LocalDateTime endFrom,
+                LocalDateTime endTo);
+
+        List<Show> findByScreenIdAndStartTimeBetweenOrEndTimeBetweenAndIdNot(
+                Long screenId,
+                LocalDateTime startFrom,
+                LocalDateTime startTo,
+                LocalDateTime endFrom,
+                LocalDateTime endTo,
+                Long showId);
+
+        List<Show> findByScreenIdInAndStartTimeBetweenOrderByStartTime(
+                List<Long> screenIds,
+                LocalDateTime start,
+                LocalDateTime end);
+
+        List<Show> findByMovieIdAndStartTimeBetweenAndIsActiveTrue(
+                Long movieId,
+                LocalDateTime start,
+                LocalDateTime end);
+
+        List<Show> findByMovieIdAndStartTimeBetweenAndScreenTheaterCityAndIsActiveTrue(
+                Long movieId,
+                LocalDateTime start,
+                LocalDateTime end,
+                String city);
+    }
+
