@@ -43,9 +43,9 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.getBookingById(id, principal.getName()));
     }
 
-    @PostMapping("/{id}/cancel")
-    @Operation(summary = "Cancel a booking")
-    public ResponseEntity<BookingResponseDto> cancelBooking(@PathVariable Long id, Principal principal) {
-        return ResponseEntity.ok(bookingService.cancelBooking(id, principal.getName()));
-    }
+//    @PostMapping("/{id}/cancel")
+//    @Operation(summary = "Cancel a booking")
+//    public ResponseEntity<BookingResponseDto> cancelBooking(@PathVariable Long id, Principal principal) {
+//        return ResponseEntity.ok(bookingService.cancelBooking(id, principal.getName()));
+//    }
 }

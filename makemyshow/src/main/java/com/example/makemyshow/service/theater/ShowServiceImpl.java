@@ -297,7 +297,10 @@ public class ShowServiceImpl implements ShowService {
         }
 
         // Check if show has any confirmed bookings
-        boolean hasConfirmedBookings = show.getBookings().stream()
+        List<Booking> bookings = bookingRepository.findByShowId(id);
+
+        // Check if show has any confirmed bookings
+        boolean hasConfirmedBookings = bookings.stream()
                 .anyMatch(booking -> booking.getStatus() == Booking.BookingStatus.CONFIRMED);
 
         if (hasConfirmedBookings) {
@@ -307,7 +310,7 @@ public class ShowServiceImpl implements ShowService {
         } else {
             // If all bookings are cancelled or no bookings exist, perform hard delete
             // First cancel any pending bookings
-            for (Booking booking : show.getBookings()) {
+            for (Booking booking : bookings) {
                 if (booking.getStatus() == Booking.BookingStatus.PENDING) {
                     booking.setStatus(Booking.BookingStatus.CANCELLED);
                     bookingRepository.save(booking);

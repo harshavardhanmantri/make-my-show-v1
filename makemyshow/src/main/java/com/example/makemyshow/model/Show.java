@@ -17,13 +17,7 @@ public class Show {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "movie_id")
-    private Movie movie;
 
-    @ManyToOne
-    @JoinColumn(name = "screen_id")
-    private Screen screen;
 
     @Column(nullable = false)
     private LocalDateTime startTime;
@@ -31,8 +25,7 @@ public class Show {
     @Column(nullable = false)
     private LocalDateTime endTime;
 
-    @OneToMany(mappedBy = "show")
-    private Set<Booking> bookings = new HashSet<>();
+
 
     private boolean isActive = true;
 
@@ -58,4 +51,16 @@ public class Show {
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
+
+    // In Show.java
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "movie_id")
+    private Movie movie;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "screen_id")
+    private Screen screen;
+
+    @OneToMany(mappedBy = "show", fetch = FetchType.LAZY)
+    private Set<Booking> bookings = new HashSet<>();
 }
