@@ -9,6 +9,7 @@ import java.util.List;
 
 @Repository
 public interface TheaterRepository extends JpaRepository<Theater, Long> {
+    List<String> findDistinctCityByIsActiveTrue();
     List<Theater> findByCityAndIsActiveTrue(String city);
-    List<String> findDistinctCityByIsActiveTrue(); // Adding this method for getAllCities()
+    List<Theater> findByOwnerId(Long ownerId);
 }
