@@ -103,7 +103,7 @@ public class ShowServiceImpl implements ShowService {
         }
 
         // Check for overlapping shows
-        List<Show> overlappingShows = showRepository.findByScreenIdAndStartTimeBetweenOrEndTimeBetween(
+        List<Show> overlappingShows = showRepository.findOverlappingShows(
                 screen.getId(),
                 showRequest.getStartTime().minusMinutes(30), // Buffer before
                 endTime.plusMinutes(30), // Buffer after
