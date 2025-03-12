@@ -3,6 +3,7 @@ package com.example.makemyshow.controller.customer;
 import com.example.makemyshow.dto.request.BookingRequestDto;
 import com.example.makemyshow.dto.response.BookingResponseDto;
 import com.example.makemyshow.dto.response.ScreenResponseDto;
+import com.example.makemyshow.dto.response.SeatResponseDto;
 import com.example.makemyshow.service.booking.BookingService;
 import com.example.makemyshow.service.theater.ScreenService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -54,9 +55,9 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.cancelBooking(id, principal.getName()));
     }
 
-    @GetMapping("/screen/{id}")
-    @Operation(summary = "Get screen details by ID")
-    public ResponseEntity<ScreenResponseDto> getScreenById(@PathVariable Long id, Principal principal) {
-        return ResponseEntity.ok(screenService.getScreenById(id, principal.getName()));
+    @GetMapping("/shows/{showId}/available-seats")
+    @Operation(summary = "Get available seats for a show")
+    public ResponseEntity<List<SeatResponseDto>> getAvailableSeatsForShow(@PathVariable Long showId) {
+        return ResponseEntity.ok(bookingService.getAvailableSeatsForShow(showId));
     }
 }

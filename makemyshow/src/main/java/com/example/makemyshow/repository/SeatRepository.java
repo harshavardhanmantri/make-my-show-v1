@@ -14,6 +14,14 @@ import java.util.List;
 @Repository
 public interface SeatRepository extends JpaRepository<Seat, Long> {
 
+    @Query("SELECT s FROM Seat s WHERE s.screen.id = :screenId AND s.id NOT IN " +
+            "(SELECT bs.id FROM Booking b JOIN b.seats bs JOIN b.show sh " +
+            "WHERE sh.id = :showId AND b.status <> 'CANCELLED')")
+    List<Seat> findAvailableSeatsByScreenIdAndShowId(
+            @Param("screenId") Long screenId,
+            @Param("showId") Long showId
+    );
+
     List<Seat> findByScreenId(Long screenId);
 
     @Query("SELECT DISTINCT s.id FROM Seat s JOIN s.bookings b JOIN b.show sh WHERE sh.id = :showId AND b.status <> 'CANCELLED'")

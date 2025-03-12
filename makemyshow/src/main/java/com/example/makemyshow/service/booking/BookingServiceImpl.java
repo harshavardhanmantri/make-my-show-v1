@@ -3,6 +3,7 @@ package com.example.makemyshow.service.booking;
 import com.example.makemyshow.dto.request.BookingRequestDto;
 import com.example.makemyshow.dto.response.BookingResponseDto;
 import com.example.makemyshow.dto.response.PaymentResponseDto;
+import com.example.makemyshow.dto.response.SeatResponseDto;
 import com.example.makemyshow.exception.ResourceNotFoundException;
 import com.example.makemyshow.exception.UnauthorizedException;
 import com.example.makemyshow.exception.ValidationException;
@@ -277,6 +278,30 @@ public class BookingServiceImpl implements BookingService {
 
         List<String> seatLabels = seatRepository.findSeatDetailsByBookingId(updatedBooking.getId());
         return createBookingResponseDto(updatedBooking, seatLabels);
+    }
+
+    @Override
+    public List<SeatResponseDto> getAvailableSeatsForShow(Long showId) {
+        Show show = showRepository.findById(showId)
+                .orElseThrow(() -> new ResourceNotFoundException("Show not found"));
+
+        Long screenId = show.getScreen().getId();
+
+        // Get all available seats
+        List<Seat> availableSeats = seatRepository.findAvailableSeatsByScreenIdAndShowId(screenId, showId);
+
+        // Convert to DTOs with pricing information
+        return availableSeats.stream()
+                .map(seat -> {
+                    SeatResponseDto dto = new SeatResponseDto();
+                    dto.setId(seat.getId());
+                    dto.setRowName(seat.getRowName());
+                    dto.setSeatNumber(seat.getSeatNumber());
+                    dto.setSeatType(seat.getSeatType().name());
+                    dto.setPrice(show.getSeatPrices().get(seat.getSeatType()));
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
 
     // Helper method to calculate total amount

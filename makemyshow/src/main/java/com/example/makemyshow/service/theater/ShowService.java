@@ -1,6 +1,7 @@
 package com.example.makemyshow.service.theater;
 
 import com.example.makemyshow.dto.request.ShowRequestDto;
+import com.example.makemyshow.dto.response.SeatResponseDto;
 import com.example.makemyshow.dto.response.ShowResponseDto;
 
 import java.time.LocalDate;
@@ -14,4 +15,5 @@ public interface ShowService {
     void deleteShow(Long id, String ownerEmail);
     List<ShowResponseDto> getShowsByTheaterAndDate(Long theaterId, LocalDate date, String ownerEmail);
     ShowResponseDto getShowByIdForOwner(Long id, String ownerEmail);
+
 }

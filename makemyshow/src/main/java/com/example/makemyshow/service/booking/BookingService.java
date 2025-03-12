@@ -2,6 +2,7 @@ package com.example.makemyshow.service.booking;
 
 import com.example.makemyshow.dto.request.BookingRequestDto;
 import com.example.makemyshow.dto.response.BookingResponseDto;
+import com.example.makemyshow.dto.response.SeatResponseDto;
 
 import java.util.List;
 
@@ -10,4 +11,5 @@ public interface BookingService {
     List<BookingResponseDto> getUserBookings(String email);
     BookingResponseDto getBookingById(Long id, String email);
     BookingResponseDto cancelBooking(Long id, String email);
+    List<SeatResponseDto> getAvailableSeatsForShow(Long showId);
 }

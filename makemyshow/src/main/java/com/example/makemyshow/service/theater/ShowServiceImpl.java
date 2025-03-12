@@ -2,6 +2,7 @@ package com.example.makemyshow.service.theater;
 
 import com.example.makemyshow.dto.request.ShowRequestDto;
 import com.example.makemyshow.dto.response.MovieResponseDto;
+import com.example.makemyshow.dto.response.SeatResponseDto;
 import com.example.makemyshow.dto.response.ShowResponseDto;
 import com.example.makemyshow.dto.response.TheaterResponseDto;
 import com.example.makemyshow.exception.ResourceNotFoundException;
@@ -369,4 +370,6 @@ public class ShowServiceImpl implements ShowService {
 
         return ShowResponseDto.fromShow(show);
     }
+
+
 }
