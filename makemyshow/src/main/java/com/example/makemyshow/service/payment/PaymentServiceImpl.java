@@ -79,7 +79,7 @@ public class PaymentServiceImpl implements PaymentService {
         bookingRepository.save(booking);
 
         // Send booking confirmation email
-        sendBookingConfirmationEmail(booking);
+//        sendBookingConfirmationEmail(booking);
 
         return PaymentResponseDto.fromPayment(savedPayment);
     }
