@@ -2,6 +2,7 @@ package com.example.makemyshow.service.auth;
 
 import com.example.makemyshow.exception.ResourceNotFoundException;
 import com.example.makemyshow.exception.UnauthorizedException;
+import com.example.makemyshow.exception.ValidationException;
 import com.example.makemyshow.repository.RoleRepository;
 import com.example.makemyshow.security.JwtTokenProvider;
 import com.example.makemyshow.dto.request.LoginRequestDto;
@@ -85,13 +86,23 @@ public class AuthServiceImpl implements AuthService {
         User savedUser = userRepository.save(user);
 
         // Send OTP for email verification
-//        otpService.sendOtp(user.getEmail());
+        otpService.sendOtp(user.getEmail());
 
         return savedUser;
     }
 
     @Override
     public JwtResponseDto authenticateUser(LoginRequestDto loginRequest) {
+        // First, find the user to check if email is verified
+        User user = userRepository.findByEmail(loginRequest.getEmail())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + loginRequest.getEmail()));
+
+        // Check if email is verified
+        if (!user.isEmailVerified()) {
+            throw new ValidationException("Email not verified. Please verify your email before logging in.");
+        }
+
+        // Continue with authentication
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
         );
@@ -103,9 +114,6 @@ public class AuthServiceImpl implements AuthService {
 
         org.springframework.security.core.userdetails.UserDetails userDetails =
                 (org.springframework.security.core.userdetails.UserDetails) authentication.getPrincipal();
-
-        User user = userRepository.findByEmail(userDetails.getUsername())
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)

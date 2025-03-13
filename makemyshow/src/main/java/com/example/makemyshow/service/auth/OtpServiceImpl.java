@@ -29,17 +29,25 @@ public class OtpServiceImpl implements OtpService {
         // Store OTP in cache
         cacheService.put(OTP_KEY_PREFIX + email, otp, OTP_EXPIRATION, TimeUnit.MINUTES);
 
-        // Send OTP email
-        Map<String, Object> templateModel = new HashMap<>();
-        templateModel.put("otp", otp);
-        templateModel.put("expirationMinutes", OTP_EXPIRATION);
+        // For development, log the OTP instead of sending email
+        System.out.println("==== OTP for " + email + ": " + otp + " ====");
 
-        emailService.sendEmailWithTemplate(
-                email,
-                "Email Verification",
-                "otp-template",
-                templateModel
-        );
+//        try {
+//            // Try to send the actual email
+//            Map<String, Object> templateModel = new HashMap<>();
+//            templateModel.put("otp", otp);
+//            templateModel.put("expirationMinutes", OTP_EXPIRATION);
+//
+//            emailService.sendEmailWithTemplate(
+//                    email,
+//                    "MakeMyShow - Email Verification Code",
+//                    "otp-template",
+//                    templateModel
+//            );
+//        } catch (Exception e) {
+//            // Log the error but don't fail the process during development
+//            System.err.println("Failed to send email: " + e.getMessage());
+//        }
     }
 
     @Override

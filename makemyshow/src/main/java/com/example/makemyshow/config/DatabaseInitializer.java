@@ -33,8 +33,8 @@ public class DatabaseInitializer implements CommandLineRunner {
         // Initialize roles if they don't exist
         initRoles();
 
-//        // Create admin user if it doesn't exist
-//        createAdminIfNotExists();
+        // Create admin user if it doesn't exist
+        createAdminIfNotExists();
     }
 
     private void initRoles() {
@@ -58,36 +58,36 @@ public class DatabaseInitializer implements CommandLineRunner {
         }
     }
 
-//    private void createAdminIfNotExists() {
-//        if (userRepository.findByEmail("admin@example.com").isEmpty()) {
-//            System.out.println("Creating admin user...");
-//
-//            // Create admin user
-//            User adminUser = new User();
-//            adminUser.setEmail("admin@example.com");
-//            adminUser.setPassword(passwordEncoder.encode("Admin@123"));
-//            adminUser.setFullName("System Admin");
-//            adminUser.setPhoneNumber("1234567890");
-//            adminUser.setActive(true);
-//            adminUser.setEmailVerified(true);
-//            adminUser.setCreatedAt(LocalDateTime.now());
-//            adminUser.setUpdatedAt(LocalDateTime.now());
-//
-//            // Save user first to get ID
-//            User savedAdmin = userRepository.save(adminUser);
-//
-//            // Set admin role
-//            Set<Role> roles = new HashSet<>();
-//            Role adminRole = roleRepository.findByName(UserRole.ROLE_ADMIN)
-//                    .orElseThrow(() -> new RuntimeException("Admin role not found"));
-//            roles.add(adminRole);
-//            savedAdmin.setRoles(roles);
-//
-//            userRepository.save(savedAdmin);
-//
-//            System.out.println("Admin user created successfully");
-//        } else {
-//            System.out.println("Admin user already exists");
-//        }
-//    }
+    private void createAdminIfNotExists() {
+        if (userRepository.findByEmail("admin@example.com").isEmpty()) {
+            System.out.println("Creating admin user...");
+
+            // Create admin user
+            User adminUser = new User();
+            adminUser.setEmail("admin@example.com");
+            adminUser.setPassword(passwordEncoder.encode("Admin@123"));
+            adminUser.setFullName("System Admin");
+            adminUser.setPhoneNumber("1234567890");
+            adminUser.setActive(true);
+            adminUser.setEmailVerified(true);
+            adminUser.setCreatedAt(LocalDateTime.now());
+            adminUser.setUpdatedAt(LocalDateTime.now());
+
+            // Save user first to get ID
+            User savedAdmin = userRepository.save(adminUser);
+
+            // Set admin role
+            Set<Role> roles = new HashSet<>();
+            Role adminRole = roleRepository.findByName(UserRole.ROLE_ADMIN)
+                    .orElseThrow(() -> new RuntimeException("Admin role not found"));
+            roles.add(adminRole);
+            savedAdmin.setRoles(roles);
+
+            userRepository.save(savedAdmin);
+
+            System.out.println("Admin user created successfully");
+        } else {
+            System.out.println("Admin user already exists");
+        }
+    }
 }
