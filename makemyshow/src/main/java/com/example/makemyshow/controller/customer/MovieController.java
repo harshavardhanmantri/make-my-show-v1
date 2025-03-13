@@ -24,7 +24,7 @@ public class MovieController {
     @Autowired
     private MovieService movieService;
 
-    @GetMapping
+    @GetMapping()
     @Operation(summary = "Get all movies with pagination")
     public ResponseEntity<Page<MovieResponseDto>> getAllMovies(Pageable pageable) {
         return ResponseEntity.ok(movieService.getAllMovies(pageable));

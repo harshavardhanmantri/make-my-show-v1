@@ -238,9 +238,11 @@ public class BookingServiceImpl implements BookingService {
     @Override
     @Transactional
     public BookingResponseDto cancelBooking(Long id, String email) {
+        // Get user
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
+        // Get booking using a query that limits relationship loading
         Booking booking = bookingRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Booking not found"));
 
@@ -259,25 +261,36 @@ public class BookingServiceImpl implements BookingService {
             throw new ValidationException("Cannot cancel booking for past shows");
         }
 
-        // Update booking status
-        booking.setStatus(Booking.BookingStatus.CANCELLED);
-        Booking updatedBooking = bookingRepository.save(booking);
+        // Update booking status using direct query to avoid loading full entity graph
+        entityManager.createQuery("UPDATE Booking b SET b.status = :status WHERE b.id = :id")
+                .setParameter("status", Booking.BookingStatus.CANCELLED)
+                .setParameter("id", booking.getId())
+                .executeUpdate();
+
+        // Fetch a fresh booking entity with minimal relationships
+        booking = entityManager.find(Booking.class, booking.getId());
 
         // Release the locked seats in cache
         String lockKey = SEAT_LOCK_KEY_PREFIX + booking.getShow().getId();
         Set<Long> lockedSeatIds = cacheService.get(lockKey, HashSet.class);
 
         if (lockedSeatIds != null) {
-            List<Long> seatIds = new ArrayList<>();
-            for (Seat seat : booking.getSeats()) {
-                seatIds.add(seat.getId());
-                lockedSeatIds.remove(seat.getId());
+            // Get seat IDs using a separate query to avoid collection traversal
+            List<Long> seatIds = entityManager.createQuery(
+                            "SELECT s.id FROM Booking b JOIN b.seats s WHERE b.id = :bookingId", Long.class)
+                    .setParameter("bookingId", booking.getId())
+                    .getResultList();
+
+            if (lockedSeatIds.removeAll(seatIds)) {
+                cacheService.put(lockKey, lockedSeatIds, LOCK_TIMEOUT, TimeUnit.MINUTES);
             }
-            cacheService.put(lockKey, lockedSeatIds, LOCK_TIMEOUT, TimeUnit.MINUTES);
         }
 
-        List<String> seatLabels = seatRepository.findSeatDetailsByBookingId(updatedBooking.getId());
-        return createBookingResponseDto(updatedBooking, seatLabels);
+        // Get seat labels for the response without traversing entity relationships
+        List<String> seatLabels = seatRepository.findSeatDetailsByBookingId(booking.getId());
+
+        // Return response using the helper method
+        return createBookingResponseDto(booking, seatLabels);
     }
 
     @Override
